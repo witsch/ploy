@@ -74,8 +74,9 @@ class Instance(BaseInstance):
 
     def get_ssh_pub_host_keys(self):
         key_types_map = {
-            'ssh-dss': paramiko.DSSKey,
             'ssh-rsa': paramiko.RSAKey}
+        if hasattr(paramiko, 'DSSKey'):
+            key_types_map['ssh-dss'] = paramiko.DSSKey
         if hasattr(paramiko, 'Ed25519Key'):
             key_types_map['ssh-ed25519'] = paramiko.Ed25519Key
         if hasattr(paramiko.ECDSAKey, 'supported_key_format_identifiers'):
